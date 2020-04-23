@@ -1,6 +1,7 @@
 import turtle
 import time
 import os
+
 # some constats
 audiopath=r'/home/shikari/games-using-python/Game1/Spring-Boing.mp3'
 timedelay=0.01
@@ -19,20 +20,42 @@ pen.speed(0)
 pen.color("Yellow")
 pen.penup()
 pen.hideturtle()
-pen.goto(0,0)
+pen.goto(0,100)
+
+
+pen1=turtle.Turtle()
+pen1.speed(0)
+pen1.color("Orange")
+pen1.penup()
+pen1.hideturtle()
+pen1.goto(0,0)
+pen1.write("Player 1 use Q and A to move ", align='center',font=("courier",20,"normal"))
+
+pen1.goto(0,-50)
+pen1.write("Player 2 use Up-Down arrow to move ", align='center',font=("courier",20,"normal"))
+
+pen2=turtle.Turtle()
+pen2.speed(0)
+pen2.color("Orange")
+pen2.penup()
+pen2.hideturtle()
+pen2.goto(0,-150)
+pen2.write("Press S to start", align='center',font=("courier",20,"normal"))
 
 def startgame():
     global start
     start=True
     
 
-while(not start):    
-    pen.write("Welcome to classic pong! Press S to start", align='center',font=("courier",24,"normal"))
+while(not start):
+    pen.write("Welcome to classic pong!", align='center',font=("courier",24,"normal"))
+    time.sleep(0.3)
     root.listen()
     root.onkeypress(startgame ,'s')     
 
 pen.clear()
-
+pen1.clear()
+pen2.clear()
 
 # Score
 score1=0
@@ -76,23 +99,26 @@ pen.goto(0,260)
 pen.write("Player A: {}  Player B: {}".format(score1,score2), align='center',font=("courier",24,"normal"))
 
 
-
 # Some functions
 def paddle1_up():
     y=paddle1.ycor()
-    y+=20
+    if y<260:
+        y+=20
     paddle1.sety(y)
 def paddle1_down():
     y=paddle1.ycor()
-    y-=20
+    if y>-240:
+        y-=20
     paddle1.sety(y)
 def paddle2_up():
     y=paddle2.ycor()
-    y+=20
+    if y<260:
+        y+=20
     paddle2.sety(y)
 def paddle2_down():
     y=paddle2.ycor()
-    y-=20
+    if y>-240:
+        y-=20
     paddle2.sety(y)
 
 
@@ -104,9 +130,8 @@ root.onkeypress(paddle2_up,'Up')
 root.onkeypress(paddle2_down,'Down') 
 
 
+    #  main game loop
 
-
-#  main game loop
 while True:
     root.update()  
 
@@ -129,7 +154,6 @@ while True:
         pen.clear()
         pen.write("Player A: {}  Player B: {}".format(score1,score2), align='center',font=("courier",24,"normal"))
         time.sleep(1)
-        
 
     if ball.ycor()<-290:
         ball.sety(-290)
@@ -147,10 +171,10 @@ while True:
 
         
     # bouncing with the paddle
-    if ball.xcor()<-340 and ball.xcor()>-350 and (ball.ycor()>paddle1.ycor()-45 and ball.ycor()<paddle1.ycor()+45):
+    if ball.xcor()<-340 and ball.xcor()>-350 and (ball.ycor()>paddle1.ycor()-50 and ball.ycor()<paddle1.ycor()+50):
         ball.dx*=-1
         ball.setx(-340)
-    if ball.xcor()>340 and ball.xcor()<350 and (ball.ycor()>paddle2.ycor()-45 and ball.ycor()<paddle2.ycor()+45):
+    if ball.xcor()>340 and ball.xcor()<350 and (ball.ycor()>paddle2.ycor()-50 and ball.ycor()<paddle2.ycor()+50):
         ball.dx*=-1 
         ball.setx(340)
 
@@ -162,4 +186,3 @@ while True:
     if (score1>=15 and score1<20) or (score2>14 and score2<20):
         timedelay=0.005
     
- 
